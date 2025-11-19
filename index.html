@@ -260,30 +260,23 @@
 
             fila = document.createElement('tr');
 
-            for(var i = 1; i < 7; i++)
+            // 요일 헤더: 일요일부터 토요일까지
+            for(var i = 0; i < 7; i++)
             {
                 fila.innerHTML += '<th>' + dies_abr[i] + '</th>';
             }
-
-            fila.innerHTML += '<th>' + dies_abr[0] + '</th>';
             e.appendChild(fila);
 
-            /* Obtinc el dia que va acabar el mes anterior */
-            var inici_mes =
-                new Date(data.getFullYear(), data.getMonth(), -1).getDay();
+            // 날짜 시작: 해당 달의 첫날에서 일요일까지 거슬러 올라감
+            var actual = new Date(data.getFullYear(), data.getMonth(), 1);
+            actual.setDate(actual.getDate() - actual.getDay());
 
-            var actual = new Date(data.getFullYear(),
-                data.getMonth(),
-                -inici_mes);
-
-            /* 6 setmanes per cobrir totes les posiblitats
-            *  Quedaria mes consistent alhora de mostrar molts mesos
-            *  en una quadricula */
+            // 6주(행) 생성
             for(var s = 0; s < 6; s++)
             {
                 var fila = document.createElement('tr');
 
-                for(var d = 1; d < 8; d++)
+                for(var d = 0; d < 7; d++)
                 {
                     var cela = document.createElement('td');
                     var span = document.createElement('span');
@@ -295,7 +288,7 @@
                     if(actual.getMonth() !== data.getMonth())
                         cela.className = 'fora';
 
-                    /* Si es avui el decorem */
+                    /* 오늘 날짜 표시 */
                     if(data.getDate() == actual.getDate() &&
                         data.getMonth() == actual.getMonth())
                         cela.className = 'avui';
